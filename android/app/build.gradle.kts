@@ -1,7 +1,25 @@
+
+import java.util.Base64
+
 plugins {
     id("com.android.application")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // El plugin de Flutter debe ir después de Android y Kotlin.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+val dartDefines = mutableMapOf<String, String>()
+
+if (project.hasProperty("dart-defines")) {
+    (project.property("dart-defines") as String)
+        .split(",")
+        .forEach { entrada ->
+            val texto = String(
+                Base64.getDecoder().decode(entrada),
+                Charsets.UTF_8
+            )
+            val partes = texto.split("=", limit = 2)
+            dartDefines[partes[0]] = partes.getOrElse(1) { "" }
+        }
 }
 
 android {
@@ -15,24 +33,18 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.huellitas.huellitas_app"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
-        // Uses the version code from pubspec.yaml. When using split APKs, 1000 * ABI_VERSION
-        // is added automatically by Flutter. (https://developer.android.com/studio/build/configure-apk-splits#configure-APK-versions)
-        // You can force using the value of versionCode by specifying the `-P force-version-code-ignoring-abi=true`
-        // flag during build.
         versionCode = flutter.versionCode
         versionName = flutter.versionName
+
+        manifestPlaceholders["mapsApiKey"] =
+            dartDefines["MAPS_API_KEY"] ?: ""
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
         }
     }

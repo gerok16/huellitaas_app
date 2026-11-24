@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "89442774124",
+    "project_id": "huellitas-3d5fe",
+    "storage_bucket": "huellitas-3d5fe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89442774124:android:aa887b559d10e274b53c49",
+        "android_client_info": {
+          "package_name": "com.huellitas.huellitas_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAK1EesDS71t67_gCPfAbR8-2ssXRT0MSs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

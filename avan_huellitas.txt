@@ -1,0 +1,1786 @@
+﻿========== REVISION DEL PROYECTO HUELLITAS ==========
+
+========== PUBSPEC.YAML ==========
+name: huellitas_app
+description: "A new Flutter project."
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+# The following defines the version and build number for your application.
+# A version number is three numbers separated by dots, like 1.2.43
+# followed by an optional build number separated by a +.
+# Both the version and the builder number may be overridden in flutter
+# build by specifying --build-name and --build-number, respectively.
+# In Android, build-name is used as versionName while build-number used as versionCode.
+# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
+# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
+# Read more about iOS versioning at
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
+# In Windows, build-name is used as the major, minor, and patch parts
+# of the product and file versions while build-number is used as the build suffix.
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.13.7
+
+# Dependencies specify other packages that your package needs in order to work.
+# To automatically upgrade your package dependencies to the latest versions
+# consider running `flutter pub upgrade --major-versions`. Alternatively,
+# dependencies can be manually updated by changing the version numbers below to
+# the latest version available on pub.dev. To see which dependencies have newer
+# versions available, run `flutter pub outdated`.
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.8
+  go_router: ^18.1.3
+  provider: ^6.1.5+1
+  supabase_flutter: ^2.18.3
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  # The "flutter_lints" package below contains a set of recommended lints to
+  # encourage good coding practices. The lint set provided by the package is
+  # activated in the `analysis_options.yaml` file located at the root of your
+  # package. See that file for information about deactivating specific lint
+  # rules and activating additional ones.
+  flutter_lints: ^6.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+
+  # The following line ensures that the Material Icons font is
+  # included with your application, so that you can use the icons in
+  # the material Icons class.
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  # assets:
+  #   - images/a_dot_burr.jpeg
+  #   - images/a_dot_ham.jpeg
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/to/resolution-aware-images
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/to/asset-from-package
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/to/font-from-package
+
+
+========================================
+ARCHIVO: .\lib\app.dart
+ESTADO: CONTIENE CODIGO (759 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'core/theme/app_theme.dart';
+import 'routes/app_router.dart';
+import 'providers/auth_provider.dart';
+import 'providers/carrito_provider.dart';
+
+class HuellitasApp extends StatelessWidget {
+  const HuellitasApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: authProvider),
+        ChangeNotifierProvider(create: (_) => CarritoProvider()),
+      ],
+      child: MaterialApp.router(
+        title: 'Huellitas',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light,
+        routerConfig: appRouter,
+      ),
+    );
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\core\constants\app_colors.dart
+ESTADO: CONTIENE CODIGO (1133 bytes)
+CONTENIDO:
+
+import 'package:flutter/material.dart';
+
+/// ðŸŽ€ Identidad visual Kawaii de Huellitas
+class AppColors {
+  // Colores principales
+  static const Color primary = Color(0xFFEC407A);
+  static const Color accent = Color(0xFFCE93D8);
+
+  // Fondos
+  static const Color background = Color(0xFFFFF8FB);
+  static const Color surface = Color(0xFFFFFFFF);
+
+  // Tonos rosa pastel
+  static const Color pinkLight = Color(0xFFFCE4EC);
+  static const Color pinkSoft = Color(0xFFF8BBD0);
+  static const Color pinkStrong = Color(0xFFF06292);
+
+  // Tonos complementarios
+  static const Color lavender = Color(0xFFE1BEE7);
+  static const Color purple = Color(0xFFBA68C8);
+  static const Color cream = Color(0xFFFFF8F5);
+
+  // Textos
+  static const Color textDark = Color(0xFF6D4C5B);
+  static const Color textSoft = Color(0xFFAD8295);
+
+  // Estados
+  static const Color success = Color(0xFF81C784);
+  static const Color error = Color(0xFFE57373);
+  static const Color warning = Color(0xFFFFB74D);
+
+  // DecoraciÃ³n
+  static const Color border = Color(0xFFFFD6E5);
+  static const Color shadow = Color(0xFFF8BBD0);
+}
+
+
+
+========================================
+ARCHIVO: .\lib\core\theme\app_theme.dart
+ESTADO: CONTIENE CODIGO (6966 bytes)
+CONTENIDO:
+
+import 'package:flutter/material.dart';
+
+/// Tema global Kawaii de Huellitas ðŸ¾
+class AppTheme {
+  // Paleta rosa pastel
+  static const Color primary = Color(0xFFEC407A);
+  static const Color secondary = Color(0xFFCE93D8);
+  static const Color background = Color(0xFFFFF8FB);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color pinkLight = Color(0xFFFCE4EC);
+  static const Color pinkSoft = Color(0xFFF8BBD0);
+  static const Color lavender = Color(0xFFE1BEE7);
+  static const Color textDark = Color(0xFF6D4C5B);
+  static const Color textSoft = Color(0xFFAD8295);
+
+  static ThemeData get light {
+    final scheme = ColorScheme.fromSeed(
+      seedColor: primary,
+      brightness: Brightness.light,
+    ).copyWith(
+      primary: primary,
+      onPrimary: Colors.white,
+      secondary: secondary,
+      onSecondary: textDark,
+      surface: surface,
+      onSurface: textDark,
+      error: const Color(0xFFE57373),
+    );
+
+    return ThemeData(
+      useMaterial3: true,
+      colorScheme: scheme,
+      scaffoldBackgroundColor: background,
+
+      // Textos generales
+      fontFamily: 'Roboto',
+      textTheme: const TextTheme(
+        headlineLarge: TextStyle(
+          color: textDark,
+          fontSize: 28,
+          fontWeight: FontWeight.bold,
+        ),
+        headlineMedium: TextStyle(
+          color: textDark,
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+        ),
+        titleLarge: TextStyle(
+          color: textDark,
+          fontSize: 20,
+          fontWeight: FontWeight.w700,
+        ),
+        titleMedium: TextStyle(
+          color: textDark,
+          fontSize: 16,
+          fontWeight: FontWeight.w600,
+        ),
+        bodyLarge: TextStyle(
+          color: textDark,
+          fontSize: 15,
+        ),
+        bodyMedium: TextStyle(
+          color: textSoft,
+          fontSize: 14,
+        ),
+      ),
+
+      // Barra superior
+      appBarTheme: const AppBarTheme(
+        backgroundColor: background,
+        foregroundColor: textDark,
+        centerTitle: true,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        titleTextStyle: TextStyle(
+          color: textDark,
+          fontSize: 20,
+          fontWeight: FontWeight.bold,
+        ),
+        iconTheme: IconThemeData(color: primary),
+      ),
+
+      // Botones principales
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: primary,
+          foregroundColor: Colors.white,
+          minimumSize: const Size.fromHeight(52),
+          elevation: 2,
+          textStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+      ),
+
+      // Botones secundarios
+      outlinedButtonTheme: OutlinedButtonThemeData(
+        style: OutlinedButton.styleFrom(
+          foregroundColor: primary,
+          minimumSize: const Size.fromHeight(50),
+          side: const BorderSide(color: pinkSoft, width: 1.5),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(18),
+          ),
+        ),
+      ),
+
+      // Campos de texto
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: pinkLight.withValues(alpha: 0.45),
+        hintStyle: const TextStyle(color: textSoft),
+        labelStyle: const TextStyle(color: textSoft),
+        prefixIconColor: primary,
+        suffixIconColor: primary,
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 18,
+          vertical: 17,
+        ),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: const BorderSide(color: pinkSoft),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(17),
+          borderSide: const BorderSide(color: primary, width: 1.8),
+        ),
+      ),
+
+      // Tarjetas
+      cardTheme: CardThemeData(
+        color: surface,
+        elevation: 2,
+        shadowColor: pinkSoft.withValues(alpha: 0.35),
+        margin: const EdgeInsets.symmetric(vertical: 7, horizontal: 3),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(22),
+          side: const BorderSide(color: Color(0xFFFFE0EB)),
+        ),
+      ),
+
+      // Iconos seleccionados
+      iconTheme: const IconThemeData(
+        color: primary,
+        size: 23,
+      ),
+
+      // Barra de navegaciÃ³n inferior
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: Colors.white,
+        indicatorColor: pinkLight,
+        elevation: 5,
+        labelTextStyle: WidgetStateProperty.resolveWith((states) {
+          if (states.contains(WidgetState.selected)) {
+            return const TextStyle(
+              color: primary,
+              fontWeight: FontWeight.bold,
+              fontSize: 12,
+            );
+          }
+          return const TextStyle(
+            color: textSoft,
+            fontSize: 12,
+          );
+        }),
+      ),
+
+      // BotÃ³n flotante
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+        backgroundColor: primary,
+        foregroundColor: Colors.white,
+        elevation: 4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(18),
+        ),
+      ),
+
+      // Checkboxes y switches
+      checkboxTheme: CheckboxThemeData(
+        fillColor: WidgetStateProperty.resolveWith((states) {
+          return states.contains(WidgetState.selected)
+              ? primary
+              : Colors.white;
+        }),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+      ),
+
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) {
+          return states.contains(WidgetState.selected)
+              ? primary
+              : Colors.white;
+        }),
+        trackColor: WidgetStateProperty.resolveWith((states) {
+          return states.contains(WidgetState.selected)
+              ? pinkLight
+              : Colors.grey.shade200;
+        }),
+      ),
+
+      dividerTheme: const DividerThemeData(
+        color: Color(0xFFF8DDE8),
+        thickness: 1,
+      ),
+
+      snackBarTheme: SnackBarThemeData(
+        backgroundColor: textDark,
+        contentTextStyle: const TextStyle(color: Colors.white),
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+========================================
+ARCHIVO: .\lib\main.dart
+ESTADO: CONTIENE CODIGO (397 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'app.dart';
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Supabase.initialize(
+    url: 'https://ozgqsbdmtcdtjbrxrybc.supabase.co',
+    publishableKey: 'sb_publishable_FAAPQj2RQWzKHnwbnHhDTA_afoyjZXp',
+  );
+
+  runApp(const HuellitasApp());
+}
+
+
+
+========================================
+ARCHIVO: .\lib\models\detalle_venta.dart
+ESTADO: VACIO
+
+
+========================================
+ARCHIVO: .\lib\models\producto.dart
+ESTADO: CONTIENE CODIGO (1617 bytes)
+CONTENIDO:
+class Producto {
+  final int id;
+  final String nombre;
+  final String categoria;
+  final double precio;
+  final int stock;
+  final int stockMinimo;
+  final String descripcion;
+  final String imagenUrl;
+  final bool activo;
+  final DateTime? fechaModificacion;
+
+  const Producto({
+    required this.id,
+    required this.nombre,
+    required this.categoria,
+    required this.precio,
+    required this.stock,
+    required this.stockMinimo,
+    required this.descripcion,
+    required this.imagenUrl,
+    required this.activo,
+    this.fechaModificacion,
+  });
+
+  bool get disponible => stock > 0;
+
+  String get precioTexto => 'Bs. ${precio.toStringAsFixed(2)}';
+
+  factory Producto.fromMap(Map<String, dynamic> map) {
+    return Producto(
+      id: (map['id'] as num).toInt(),
+      nombre: map['nombre'] ?? '',
+      categoria: map['categoria'] ?? '',
+      precio: (map['precio'] as num).toDouble(),
+      stock: (map['stock'] as num).toInt(),
+      stockMinimo: (map['stock_minimo'] as num?)?.toInt() ?? 0,
+      descripcion: map['descripcion'] ?? '',
+      imagenUrl: map['imagen_url'] ?? '',
+      activo: map['activo'] ?? true,
+      fechaModificacion: map['fecha_modificacion'] == null
+          ? null
+          : DateTime.parse(map['fecha_modificacion']),
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'nombre': nombre,
+      'categoria': categoria,
+      'precio': precio,
+      'stock': stock,
+      'stock_minimo': stockMinimo,
+      'descripcion': descripcion,
+      'imagen_url': imagenUrl,
+      'activo': activo,
+    };
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\models\usuario.dart
+ESTADO: CONTIENE CODIGO (643 bytes)
+CONTENIDO:
+class Usuario {
+  final String id;
+  final String nombre;
+  final String correo;
+  final String rol;
+  final bool activo;
+
+  const Usuario({
+    required this.id,
+    required this.nombre,
+    required this.correo,
+    required this.rol,
+    required this.activo,
+  });
+
+  factory Usuario.fromMap(Map<String, dynamic> map) {
+    return Usuario(
+      id: map['id'].toString(),
+      nombre: map['nombre'] ?? '',
+      correo: map['correo'] ?? '',
+      rol: map['rol'] ?? 'empleado',
+      activo: map['activo'] == true,
+    );
+  }
+
+  bool get esDueno => rol == 'dueno';
+  bool get esEmpleado => rol == 'empleado';
+}
+
+
+========================================
+ARCHIVO: .\lib\models\venta.dart
+ESTADO: VACIO
+
+
+========================================
+ARCHIVO: .\lib\providers\auth_provider.dart
+ESTADO: CONTIENE CODIGO (1011 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+import '../models/usuario.dart';
+import '../services/auth_service.dart';
+
+class AuthProvider extends ChangeNotifier {
+  final AuthService _service = AuthService();
+
+  Usuario? usuario;
+  bool cargando = true;
+
+  bool get estaAutenticado => usuario != null;
+  bool get esDueno => usuario?.esDueno ?? false;
+
+  Future<void> inicializar() async {
+    try {
+      usuario = await _service.obtenerPerfilActual();
+    } catch (_) {
+      usuario = null;
+    }
+
+    cargando = false;
+    notifyListeners();
+  }
+
+  Future<void> iniciarSesion(String correo, String password) async {
+    cargando = true;
+    notifyListeners();
+
+    try {
+      usuario = await _service.iniciarSesion(correo, password);
+    } finally {
+      cargando = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> cerrarSesion() async {
+    await _service.cerrarSesion();
+    usuario = null;
+    notifyListeners();
+  }
+}
+
+final authProvider = AuthProvider();
+
+
+========================================
+ARCHIVO: .\lib\providers\carrito_provider.dart
+ESTADO: CONTIENE CODIGO (141 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+
+class CarritoProvider extends ChangeNotifier {
+  void limpiar() {
+    notifyListeners();
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\routes\app_router.dart
+ESTADO: CONTIENE CODIGO (1549 bytes)
+CONTENIDO:
+import 'package:go_router/go_router.dart';
+
+import '../providers/auth_provider.dart';
+import '../screens/welcome/welcome_screen.dart';
+import '../screens/auth/login_screen.dart';
+import '../screens/catalog/catalog_screen.dart';
+import '../screens/home/main_shell.dart';
+import '../screens/products/gestion_productos_screen.dart';
+
+final GoRouter appRouter = GoRouter(
+  initialLocation: '/',
+  refreshListenable: authProvider,
+
+  redirect: (context, state) {
+    final autenticado = authProvider.estaAutenticado;
+    final ruta = state.matchedLocation;
+
+    final necesitaSesion =
+        ruta == '/inicio' || ruta.startsWith('/productos');
+
+    final necesitaDueno = ruta.startsWith('/productos');
+
+    if (!autenticado && necesitaSesion) {
+      return '/login';
+    }
+
+    if (autenticado && ruta == '/login') {
+      return '/inicio';
+    }
+
+    if (autenticado && necesitaDueno && !authProvider.esDueno) {
+      return '/inicio';
+    }
+
+    return null;
+  },
+
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const WelcomeScreen(),
+    ),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => const LoginScreen(),
+    ),
+    GoRoute(
+      path: '/catalogo',
+      builder: (context, state) => const CatalogScreen(),
+    ),
+    GoRoute(
+      path: '/inicio',
+      builder: (context, state) => const MainShell(),
+    ),
+    GoRoute(
+      path: '/productos',
+      builder: (context, state) => const GestionProductosScreen(),
+    ),
+  ],
+);
+
+
+========================================
+ARCHIVO: .\lib\screens\auth\login_screen.dart
+ESTADO: CONTIENE CODIGO (4864 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/auth_provider.dart';
+import '../../core/constants/app_colors.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _correo = TextEditingController();
+  final _password = TextEditingController();
+
+  bool _ocultarPassword = true;
+  bool _cargando = false;
+
+  @override
+  void dispose() {
+    _correo.dispose();
+    _password.dispose();
+    super.dispose();
+  }
+
+  Future<void> _ingresar() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() => _cargando = true);
+
+    try {
+      await context.read<AuthProvider>().iniciarSesion(
+        _correo.text,
+        _password.text,
+      );
+
+      if (!mounted) return;
+
+      context.go('/inicio');
+    } catch (e) {
+      if (!mounted) return;
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(e.toString().replaceFirst('Exception: ', '')),
+        ),
+      );
+    } finally {
+      if (mounted) setState(() => _cargando = false);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Iniciar sesiÃ³n')),
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24),
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 420),
+            child: Form(
+              key: _formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  const Icon(
+                    Icons.pets,
+                    size: 75,
+                    color: AppColors.primary,
+                  ),
+                  const SizedBox(height: 15),
+                  Text(
+                    'Â¡Bienvenido a Huellitas!',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                  const SizedBox(height: 28),
+                  TextFormField(
+                    controller: _correo,
+                    keyboardType: TextInputType.emailAddress,
+                    decoration: const InputDecoration(
+                      labelText: 'Correo electrÃ³nico',
+                      prefixIcon: Icon(Icons.email_outlined),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.trim().isEmpty) {
+                        return 'Ingresa tu correo';
+                      }
+                      if (!value.contains('@') || !value.contains('.')) {
+                        return 'Ingresa un correo vÃ¡lido';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  TextFormField(
+                    controller: _password,
+                    obscureText: _ocultarPassword,
+                    decoration: InputDecoration(
+                      labelText: 'ContraseÃ±a',
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        onPressed: () => setState(
+                              () => _ocultarPassword = !_ocultarPassword,
+                        ),
+                        icon: Icon(
+                          _ocultarPassword
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                        ),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Ingresa tu contraseÃ±a';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 25),
+                  FilledButton(
+                    onPressed: _cargando ? null : _ingresar,
+                    child: _cargando
+                        ? const CircularProgressIndicator(color: Colors.white)
+                        : const Text('Ingresar'),
+                  ),
+                  const SizedBox(height: 12),
+                  TextButton(
+                    onPressed: () => context.go('/'),
+                    child: const Text('Volver al inicio'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\screens\catalog\catalog_screen.dart
+ESTADO: CONTIENE CODIGO (9542 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+
+import '../../models/producto.dart';
+import '../../services/producto_service.dart';
+
+class CatalogScreen extends StatefulWidget {
+  final bool embedded;
+
+  const CatalogScreen({super.key, this.embedded = false});
+
+  @override
+  State<CatalogScreen> createState() => _CatalogScreenState();
+}
+
+class _CatalogScreenState extends State<CatalogScreen> {
+  final ProductoService _service = ProductoService();
+  late Future<List<Producto>> _productos;
+
+  @override
+  void initState() {
+    super.initState();
+    _productos = _service.productosActivos();
+  }
+
+  void _recargar() {
+    setState(() {
+      _productos = _service.productosActivos();
+    });
+  }
+
+  void _verDetalle(Producto p) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(p.nombre),
+        content: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _imagenProducto(p.imagenUrl, height: 180),
+              const SizedBox(height: 15),
+              Text(
+                p.precioTexto,
+                style: const TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFFEC407A),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text('CategorÃ­a: ${p.categoria}'),
+              const SizedBox(height: 8),
+              Text(p.descripcion.isEmpty
+                  ? 'Sin descripciÃ³n disponible.'
+                  : p.descripcion),
+              const SizedBox(height: 12),
+              Text(
+                p.disponible ? 'Disponible' : 'Agotado',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: p.disponible ? Colors.green : Colors.red,
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cerrar'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _imagenProducto(String url, {double height = 125}) {
+    return SizedBox(
+      height: height,
+      width: double.infinity,
+      child: url.isNotEmpty
+          ? Image.network(
+        url,
+        fit: BoxFit.cover,
+        errorBuilder: (_, __, ___) => _imagenReemplazo(),
+      )
+          : _imagenReemplazo(),
+    );
+  }
+
+  Widget _imagenReemplazo() {
+    return Container(
+      color: const Color(0xFFFCE4EC),
+      child: const Center(
+        child: Icon(Icons.pets, size: 55, color: Color(0xFFEC407A)),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: widget.embedded
+          ? null
+          : AppBar(
+        title: const Text('CatÃ¡logo Huellitas'),
+        actions: [
+          IconButton(
+            onPressed: _recargar,
+            icon: const Icon(Icons.refresh),
+          ),
+        ],
+      ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 18, 16, 12),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Nuestros productos ðŸ¾',
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                const Text('Todo lo que tu mascota necesita.'),
+              ],
+            ),
+          ),
+          Expanded(
+            child: FutureBuilder<List<Producto>>(
+              future: _productos,
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.cloud_off, size: 50),
+                        const SizedBox(height: 10),
+                        const Text('No se pudieron cargar los productos.'),
+                        TextButton(
+                          onPressed: _recargar,
+                          child: const Text('Reintentar'),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
+                final productos = snapshot.data ?? [];
+
+                if (productos.isEmpty) {
+                  return const Center(
+                    child: Text('TodavÃ­a no hay productos disponibles.'),
+                  );
+                }
+
+                return RefreshIndicator(
+                  onRefresh: () async => _recargar(),
+                  child: GridView.builder(
+                    padding: const EdgeInsets.all(14),
+                    gridDelegate:
+                    const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12,
+                      childAspectRatio: 0.68,
+                    ),
+                    itemCount: productos.length,
+                    itemBuilder: (context, index) {
+                      final p = productos[index];
+
+                      return Card(
+                        clipBehavior: Clip.antiAlias,
+                        child: InkWell(
+                          onTap: () => _verDetalle(p),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  width: double.infinity,
+                                  child: _imagenProducto(p.imagenUrl),
+                                ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(10),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      p.nombre,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Text(
+                                      p.precioTexto,
+                                      style: const TextStyle(
+                                        color: Color(0xFFEC407A),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 5),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          p.disponible
+                                              ? Icons.check_circle
+                                              : Icons.cancel,
+                                          size: 15,
+                                          color: p.disponible
+                                              ? Colors.green
+                                              : Colors.red,
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Expanded(
+                                          child: Text(
+                                            p.disponible
+                                                ? 'Disponible'
+                                                : 'Agotado',
+                                            style: TextStyle(
+                                              fontSize: 12,
+                                              color: p.disponible
+                                                  ? Colors.green
+                                                  : Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\screens\home\main_shell.dart
+ESTADO: CONTIENE CODIGO (3418 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/auth_provider.dart';
+import '../catalog/catalog_screen.dart';
+import '../products/gestion_productos_screen.dart';
+
+class MainShell extends StatefulWidget {
+  const MainShell({super.key});
+
+  @override
+  State<MainShell> createState() => _MainShellState();
+}
+
+class _MainShellState extends State<MainShell> {
+  int _indice = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    final auth = context.watch<AuthProvider>();
+    final usuario = auth.usuario!;
+    final esDueno = auth.esDueno;
+
+    final pantallas = [
+      const CatalogScreen(embedded: true),
+      if (esDueno) const GestionProductosScreen(embedded: true),
+    ];
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(esDueno ? 'Panel del DueÃ±o' : 'Huellitas'),
+        actions: [
+          IconButton(
+            tooltip: 'Cerrar sesiÃ³n',
+            onPressed: () async {
+              await context.read<AuthProvider>().cerrarSesion();
+              if (context.mounted) context.go('/');
+            },
+            icon: const Icon(Icons.logout),
+          ),
+        ],
+      ),
+      body: Column(
+        children: [
+          Container(
+            width: double.infinity,
+            margin: const EdgeInsets.fromLTRB(16, 8, 16, 4),
+            padding: const EdgeInsets.all(15),
+            decoration: BoxDecoration(
+              color: const Color(0xFFFCE4EC),
+              borderRadius: BorderRadius.circular(18),
+            ),
+            child: Row(
+              children: [
+                const CircleAvatar(
+                  backgroundColor: Color(0xFFEC407A),
+                  child: Icon(Icons.person, color: Colors.white),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Â¡Hola, ${usuario.nombre}!',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(esDueno ? 'DueÃ±o' : 'Empleado'),
+                    ],
+                  ),
+                ),
+                const Icon(Icons.pets, color: Color(0xFFEC407A)),
+              ],
+            ),
+          ),
+          Expanded(
+            child: IndexedStack(
+              index: _indice,
+              children: pantallas,
+            ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: NavigationBar(
+        selectedIndex: _indice,
+        onDestinationSelected: (index) {
+          setState(() => _indice = index);
+        },
+        destinations: [
+          const NavigationDestination(
+            icon: Icon(Icons.storefront_outlined),
+            selectedIcon: Icon(Icons.storefront),
+            label: 'CatÃ¡logo',
+          ),
+          if (esDueno)
+            const NavigationDestination(
+              icon: Icon(Icons.inventory_2_outlined),
+              selectedIcon: Icon(Icons.inventory_2),
+              label: 'Productos',
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\screens\products\gestion_productos_screen.dart
+ESTADO: CONTIENE CODIGO (11220 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+
+import '../../models/producto.dart';
+import '../../services/producto_service.dart';
+
+class GestionProductosScreen extends StatefulWidget {
+  final bool embedded;
+
+  const GestionProductosScreen({super.key, this.embedded = false});
+
+  @override
+  State<GestionProductosScreen> createState() =>
+      _GestionProductosScreenState();
+}
+
+class _GestionProductosScreenState extends State<GestionProductosScreen> {
+  final ProductoService _service = ProductoService();
+  late Future<List<Producto>> _productos;
+
+  @override
+  void initState() {
+    super.initState();
+    _recargar();
+  }
+
+  void _recargar() {
+    _productos = _service.todos();
+  }
+
+  void _mensaje(String texto) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(texto)),
+    );
+  }
+
+  Future<void> _formulario([Producto? producto]) async {
+    final resultado = await showDialog<Producto>(
+      context: context,
+      builder: (_) => _ProductoDialog(producto: producto),
+    );
+
+    if (resultado == null) return;
+
+    try {
+      if (producto == null) {
+        await _service.crear(resultado);
+        _mensaje('Producto creado correctamente');
+      } else {
+        await _service.actualizar(producto.id, resultado);
+        _mensaje('Producto actualizado correctamente');
+      }
+
+      if (mounted) setState(_recargar);
+    } catch (e) {
+      _mensaje('No se pudo guardar el producto: $e');
+    }
+  }
+
+  Future<void> _cambiarEstado(Producto producto, bool activo) async {
+    try {
+      await _service.cambiarActivo(producto.id, activo);
+      if (mounted) {
+        setState(_recargar);
+        _mensaje(activo ? 'Producto activado' : 'Producto desactivado');
+      }
+    } catch (e) {
+      _mensaje('No se pudo cambiar el estado: $e');
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: widget.embedded
+          ? null
+          : AppBar(title: const Text('GestiÃ³n de productos')),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _formulario(),
+        icon: const Icon(Icons.add),
+        label: const Text('Nuevo producto'),
+      ),
+      body: FutureBuilder<List<Producto>>(
+        future: _productos,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('No se pudieron cargar los productos.'),
+                  TextButton(
+                    onPressed: () => setState(_recargar),
+                    child: const Text('Reintentar'),
+                  ),
+                ],
+              ),
+            );
+          }
+
+          final productos = snapshot.data ?? [];
+
+          if (productos.isEmpty) {
+            return const Center(
+              child: Text('TodavÃ­a no tienes productos registrados.'),
+            );
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              setState(_recargar);
+              await _productos;
+            },
+            child: ListView.builder(
+              padding: const EdgeInsets.fromLTRB(12, 12, 12, 90),
+              itemCount: productos.length,
+              itemBuilder: (context, index) {
+                final p = productos[index];
+
+                return Card(
+                  child: Opacity(
+                    opacity: p.activo ? 1 : 0.55,
+                    child: ListTile(
+                      onTap: () => _formulario(p),
+                      leading: CircleAvatar(
+                        backgroundColor: const Color(0xFFFCE4EC),
+                        child: const Icon(
+                          Icons.pets,
+                          color: Color(0xFFEC407A),
+                        ),
+                      ),
+                      title: Text(
+                        p.nombre,
+                        style: const TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      subtitle: Text(
+                        '${p.categoria} Â· ${p.precioTexto}\n'
+                            'Stock: ${p.stock} Â· MÃ­nimo: ${p.stockMinimo}'
+                            '${p.activo ? '' : '\nDesactivado'}',
+                      ),
+                      isThreeLine: true,
+                      trailing: Switch(
+                        value: p.activo,
+                        onChanged: (valor) => _cambiarEstado(p, valor),
+                      ),
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _ProductoDialog extends StatefulWidget {
+  final Producto? producto;
+
+  const _ProductoDialog({this.producto});
+
+  @override
+  State<_ProductoDialog> createState() => _ProductoDialogState();
+}
+
+class _ProductoDialogState extends State<_ProductoDialog> {
+  final _formKey = GlobalKey<FormState>();
+
+  late final TextEditingController _nombre;
+  late final TextEditingController _precio;
+  late final TextEditingController _stock;
+  late final TextEditingController _stockMinimo;
+  late final TextEditingController _descripcion;
+  late final TextEditingController _imagen;
+
+  static const categorias = [
+    'Alimentos',
+    'Accesorios',
+    'Higiene',
+    'Juguetes',
+  ];
+
+  String? _categoria;
+
+  @override
+  void initState() {
+    super.initState();
+
+    final p = widget.producto;
+
+    _nombre = TextEditingController(text: p?.nombre ?? '');
+    _precio = TextEditingController(
+      text: p == null ? '' : p.precio.toString(),
+    );
+    _stock = TextEditingController(text: p?.stock.toString() ?? '0');
+    _stockMinimo =
+        TextEditingController(text: p?.stockMinimo.toString() ?? '0');
+    _descripcion = TextEditingController(text: p?.descripcion ?? '');
+    _imagen = TextEditingController(text: p?.imagenUrl ?? '');
+    _categoria = p?.categoria;
+  }
+
+  @override
+  void dispose() {
+    _nombre.dispose();
+    _precio.dispose();
+    _stock.dispose();
+    _stockMinimo.dispose();
+    _descripcion.dispose();
+    _imagen.dispose();
+    super.dispose();
+  }
+
+  String? _validarEntero(String? valor) {
+    final numero = int.tryParse(valor ?? '');
+    if (numero == null || numero < 0) {
+      return 'Ingresa un nÃºmero entero igual o mayor a 0';
+    }
+    return null;
+  }
+
+  void _guardar() {
+    if (!_formKey.currentState!.validate()) return;
+
+    if (_categoria == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Selecciona una categorÃ­a')),
+      );
+      return;
+    }
+
+    final precio = double.parse(_precio.text.trim().replaceAll(',', '.'));
+
+    final producto = Producto(
+      id: widget.producto?.id ?? 0,
+      nombre: _nombre.text.trim(),
+      categoria: _categoria!,
+      precio: precio,
+      stock: int.parse(_stock.text),
+      stockMinimo: int.parse(_stockMinimo.text),
+      descripcion: _descripcion.text.trim(),
+      imagenUrl: _imagen.text.trim(),
+      activo: widget.producto?.activo ?? true,
+    );
+
+    Navigator.pop(context, producto);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text(
+        widget.producto == null ? 'Nuevo producto' : 'Editar producto',
+      ),
+      content: SizedBox(
+        width: 420,
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  controller: _nombre,
+                  decoration: const InputDecoration(labelText: 'Nombre'),
+                  validator: (v) =>
+                  (v == null || v.trim().isEmpty) ? 'Campo obligatorio' : null,
+                ),
+                const SizedBox(height: 12),
+                DropdownButtonFormField<String>(
+                  initialValue: _categoria,
+                  decoration: const InputDecoration(labelText: 'CategorÃ­a'),
+                  items: categorias
+                      .map((c) => DropdownMenuItem(value: c, child: Text(c)))
+                      .toList(),
+                  onChanged: (v) => setState(() => _categoria = v),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _precio,
+                  keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(labelText: 'Precio (Bs.)'),
+                  validator: (v) {
+                    final n = double.tryParse(
+                      (v ?? '').trim().replaceAll(',', '.'),
+                    );
+                    if (n == null || n <= 0) {
+                      return 'El precio debe ser mayor que cero';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _stock,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: 'Stock'),
+                  validator: _validarEntero,
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _stockMinimo,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(labelText: 'Stock mÃ­nimo'),
+                  validator: _validarEntero,
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _descripcion,
+                  maxLines: 2,
+                  decoration: const InputDecoration(labelText: 'DescripciÃ³n'),
+                ),
+                const SizedBox(height: 12),
+                TextFormField(
+                  controller: _imagen,
+                  decoration: const InputDecoration(
+                    labelText: 'URL de imagen (opcional)',
+                  ),
+                  validator: (v) {
+                    if (v == null || v.trim().isEmpty) return null;
+                    if (!v.startsWith('http://') &&
+                        !v.startsWith('https://')) {
+                      return 'La URL debe comenzar con http:// o https://';
+                    }
+                    return null;
+                  },
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: const Text('Cancelar'),
+        ),
+        FilledButton(
+          onPressed: _guardar,
+          child: const Text('Guardar'),
+        ),
+      ],
+    );
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\screens\sales\consulta_venta_screen.dart
+ESTADO: VACIO
+
+
+========================================
+ARCHIVO: .\lib\screens\sales\detalle_venta_screen.dart
+ESTADO: VACIO
+
+
+========================================
+ARCHIVO: .\lib\screens\sales\punto_venta_screen.dart
+ESTADO: VACIO
+
+
+========================================
+ARCHIVO: .\lib\screens\welcome\welcome_screen.dart
+ESTADO: CONTIENE CODIGO (2575 bytes)
+CONTENIDO:
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import '../../core/constants/app_colors.dart';
+
+/// HU-01: pantalla de bienvenida.
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          // Scroll por si el telÃ©fono es pequeÃ±o o estÃ¡ en horizontal.
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.all(24),
+            child: ConstrainedBox(
+              // En tablets el contenido no se estira demasiado.
+              constraints: const BoxConstraints(maxWidth: 420),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Logo provisional: Ã­cono de huella sobre cÃ­rculo verde.
+                  Container(
+                    width: 120,
+                    height: 120,
+                    decoration: const BoxDecoration(
+                      color: AppColors.primary,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.pets, size: 64, color: Colors.white),
+                  ),
+                  const SizedBox(height: 24),
+                  Text(
+                    'Huellitas',
+                    style: textTheme.headlineLarge?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Todo para tu mascota, en un solo lugar',
+                    textAlign: TextAlign.center,
+                    style: textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 40),
+                  FilledButton.icon(
+                    onPressed: () => context.push('/catalogo'),
+                    icon: const Icon(Icons.storefront),
+                    label: const Text('Ver catÃ¡logo'),
+                  ),
+                  const SizedBox(height: 12),
+                  OutlinedButton.icon(
+                    onPressed: () => context.push('/login'),
+                    icon: const Icon(Icons.login),
+                    label: const Text('Iniciar sesiÃ³n'),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+========================================
+ARCHIVO: .\lib\services\auth_service.dart
+ESTADO: CONTIENE CODIGO (1573 bytes)
+CONTENIDO:
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../models/usuario.dart';
+
+class AuthService {
+  final SupabaseClient _supabase = Supabase.instance.client;
+
+  Future<Usuario> iniciarSesion(String correo, String password) async {
+    final respuesta = await _supabase.auth.signInWithPassword(
+      email: correo.trim(),
+      password: password,
+    );
+
+    final usuarioAuth = respuesta.user;
+
+    if (usuarioAuth == null) {
+      throw Exception('No se pudo iniciar sesiÃ³n.');
+    }
+
+    final perfil = await _supabase
+        .from('usuarios')
+        .select()
+        .eq('id', usuarioAuth.id)
+        .maybeSingle();
+
+    if (perfil == null) {
+      await _supabase.auth.signOut();
+      throw Exception('No se encontrÃ³ el perfil del usuario.');
+    }
+
+    final usuario = Usuario.fromMap(perfil);
+
+    if (!usuario.activo) {
+      await _supabase.auth.signOut();
+      throw Exception('Tu cuenta estÃ¡ desactivada.');
+    }
+
+    return usuario;
+  }
+
+  Future<Usuario?> obtenerPerfilActual() async {
+    final actual = _supabase.auth.currentUser;
+    if (actual == null) return null;
+
+    final perfil = await _supabase
+        .from('usuarios')
+        .select()
+        .eq('id', actual.id)
+        .maybeSingle();
+
+    if (perfil == null) return null;
+
+    final usuario = Usuario.fromMap(perfil);
+    if (!usuario.activo) {
+      await cerrarSesion();
+      return null;
+    }
+
+    return usuario;
+  }
+
+  Future<void> cerrarSesion() async {
+    await _supabase.auth.signOut();
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\services\producto_service.dart
+ESTADO: CONTIENE CODIGO (1355 bytes)
+CONTENIDO:
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../models/producto.dart';
+
+class ProductoService {
+  final SupabaseClient _db = Supabase.instance.client;
+
+  Future<List<Producto>> productosActivos() async {
+    final datos = await _db
+        .from('productos')
+        .select()
+        .eq('activo', true)
+        .order('nombre');
+
+    return datos.map((p) => Producto.fromMap(p)).toList();
+  }
+
+  Future<List<Producto>> todos() async {
+    final datos = await _db
+        .from('productos')
+        .select()
+        .order('nombre');
+
+    return datos.map((p) => Producto.fromMap(p)).toList();
+  }
+
+  Future<Producto?> obtener(int id) async {
+    final datos = await _db
+        .from('productos')
+        .select()
+        .eq('id', id)
+        .maybeSingle();
+
+    if (datos == null) return null;
+
+    return Producto.fromMap(datos);
+  }
+
+  Future<void> crear(Producto producto) async {
+    await _db.from('productos').insert(producto.toMap());
+  }
+
+  Future<void> actualizar(int id, Producto producto) async {
+    await _db
+        .from('productos')
+        .update(producto.toMap())
+        .eq('id', id);
+  }
+
+  Future<void> cambiarActivo(int id, bool activo) async {
+    await _db
+        .from('productos')
+        .update({'activo': activo})
+        .eq('id', id);
+  }
+}
+
+
+========================================
+ARCHIVO: .\lib\services\supabase_service.dart
+ESTADO: VACIO
+
+
+========================================
+ARCHIVO: .\lib\services\venta_service.dart
+ESTADO: VACIO
